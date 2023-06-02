@@ -1,0 +1,25 @@
+@font-face { 
+    font-family: 'Arial'; 
+    src: url('./Arial.ttf'); 
+  }
+  
+  @font-face { 
+    font-family: 'Calibri'; 
+    src: url('./Calibri.ttf');
+  }
+  
+  @font-face { 
+    font-family: '楷体'; 
+    src: url('./Kaiti.ttf'); 
+  }
+  
+  @font-face { 
+    font-family: '黑体-简'; 
+    src: url('./SimHei.ttf');  
+  }
+  
+  @font-face { 
+    font-family: '华文仿宋';
+    src: url('./STFangsong.ttf');  
+  }
+  
