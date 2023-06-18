@@ -33,62 +33,7 @@ myData.cap[8] = '加热器使能'
 myData.cap[9] = '加热器输出'
 myData.cap[10] = '物体'
 // the init button value is ‘开始’, click to change the value
-const botton_value = reactive({"start":'开始',"motor":'启动电机',"heat":'启动加热',"relay1":'启动继电器1',"relay2":'启动继电器2'})
 
-let send_data = () => {
-    let sendData = {
-        "start":botton_value.start != '开始',
-        "motor":botton_value.motor != '启动电机',
-        "heat":botton_value.heat != '启动加热',
-        "relay1":botton_value.relay1 != '启动继电器1',
-        "relay2":botton_value.relay2 != '启动继电器2'
-    }
-    axios.post('http://'+window.location.hostname+':5000/set',sendData)
-        .then( (res) => {
-          console.log(res.data)
-        } )
-        .catch( (err) => console.log(err) );
-}
-let start_botton = ()=>{
-    if (botton_value.start == '开始') {
-        botton_value.start = '停止'
-    } else {
-        botton_value.start = '开始'
-    }
-    send_data()
-}
-let motor_botton = ()=>{
-    if (botton_value.motor == '启动电机') {
-        botton_value.motor = '停止电机'
-    } else {
-        botton_value.motor = '启动电机'
-    }
-    send_data()
-}
-let heat_botton = ()=>{
-    if (botton_value.heat == '启动加热') {
-        botton_value.heat = '停止加热'
-    } else {
-        botton_value.heat = '启动加热'
-    }
-    send_data()
-}
-let relay1_botton = ()=>{
-    if (botton_value.relay1 == '启动继电器1') {
-        botton_value.relay1 = '收回继电器1'
-    } else {
-        botton_value.relay1 = '启动继电器1'
-    }
-    send_data()
-}
-let relay2_botton = ()=>{
-    if (botton_value.relay2 == '启动继电器2') {
-        botton_value.relay2 = '收回继电器2'
-    } else {
-        botton_value.relay2 = '启动继电器2'
-    }
-    send_data()
-}
 
 let get_data = () => {
     axios.post('http://'+window.location.hostname+':5000/get',{})
@@ -268,12 +213,29 @@ let interval2 = setInterval(echart_draw, 100)
 </div>
 
 <div class="div_out_2">
+    <div class="div_cap">
+        <div class="cap2">    
+            <label for="temperature">设定温度:</label>
+            <input type="range" id="temperature" name="temperature" min="20" max="50" v-model="temperature" @input="updateTemperature">
+        </div>
+        <span class="str">{{ temperature }}</span>
+    </div>
+</div>
+
+<div class="div_out_2">
     <div class="div_inline">
         <div class="div_cap">
             <span class="cap2">{{ myData.cap[10] }}</span>
         </div>
         <img :src="img[10]" class="img_icon" />
         <span class="str">{{ myData.data[10] }}</span>
+    </div>
+        <div class="div_inline">
+        <div class="div_cap">
+            <span class="cap2">{{ "计数：" }}</span>
+        </div>
+        <img :src="img[10]" class="img_icon" />
+        <span class="str">{{ 0 }}</span>
     </div>
 </div>
 
@@ -303,6 +265,8 @@ let interval2 = setInterval(echart_draw, 100)
     </div>
 </div>
 
+
+
 <div class="div">
     <div class="div_inline">
         <span class="cap_en">{{ "temperature's plot" }}</span>
@@ -316,9 +280,67 @@ let interval2 = setInterval(echart_draw, 100)
     <div id="plot"></div>
 </div>
 
+
 </template>
 
 <script>
+const botton_value = reactive({"start":'开始',"motor":'启动电机',"heat":'启动加热',"relay1":'启动继电器1',"relay2":'启动继电器2'})
+const int_value = reactive({"temperature":25})
+let send_data = () => {
+    let sendData = {
+        "start":botton_value.start != '开始',
+        "motor":botton_value.motor != '启动电机',
+        "heat":botton_value.heat != '启动加热',
+        "relay1":botton_value.relay1 != '启动继电器1',
+        "relay2":botton_value.relay2 != '启动继电器2',
+        "temperature":int_value.temperature
+    }
+    axios.post('http://'+window.location.hostname+':5000/set',sendData)
+        .then( (res) => {
+          console.log(res.data)
+        } )
+        .catch( (err) => console.log(err) );
+}
+let start_botton = ()=>{
+    if (botton_value.start == '开始') {
+        botton_value.start = '停止'
+    } else {
+        botton_value.start = '开始'
+    }
+    send_data()
+}
+let motor_botton = ()=>{
+    if (botton_value.motor == '启动电机') {
+        botton_value.motor = '停止电机'
+    } else {
+        botton_value.motor = '启动电机'
+    }
+    send_data()
+}
+let heat_botton = ()=>{
+    if (botton_value.heat == '启动加热') {
+        botton_value.heat = '停止加热'
+    } else {
+        botton_value.heat = '启动加热'
+    }
+    send_data()
+}
+let relay1_botton = ()=>{
+    if (botton_value.relay1 == '启动继电器1') {
+        botton_value.relay1 = '收回继电器1'
+    } else {
+        botton_value.relay1 = '启动继电器1'
+    }
+    send_data()
+}
+let relay2_botton = ()=>{
+    if (botton_value.relay2 == '启动继电器2') {
+        botton_value.relay2 = '收回继电器2'
+    } else {
+        botton_value.relay2 = '启动继电器2'
+    }
+    send_data()
+}
   window.addEventListener('DOMContentLoaded', () => {
     const myButton = document.getElementById('botton');
 
@@ -338,6 +360,25 @@ let interval2 = setInterval(echart_draw, 100)
       myButton.classList.remove('active');
     });
   });
+  export default {
+  data() {
+    return {
+      temperature: 25
+    }
+  },
+  methods: {
+    updateTemperature() {
+      console.log(`Temperature updated to ${this.temperature}`);
+      int_value.temperature = this.temperature;
+      send_data();
+    }
+  },
+  computed: {
+    externalTemperature() {
+      return this.temperature;
+    }
+  }
+}
 </script>
 
 <style>

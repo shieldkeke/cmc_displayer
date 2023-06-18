@@ -25,8 +25,10 @@ def get():
 @app.route("/set", methods=['POST'])
 def set():
     req = request.json
+    # print(req)
     if req: 
-        value = [int(req["start"]), int(req["motor"]), int(req["heat"]), int(req["relay1"]), int(req["relay2"])]
+        value = [int(req["start"]), int(req["motor"]), int(req["heat"]), int(req["relay1"]), int(req["relay2"]), int(req["temperature"])]
+        # print(value)
         modbus.writeMultiple(19, len(value), value) # %MQW19-23
         return "ok"
     else:
